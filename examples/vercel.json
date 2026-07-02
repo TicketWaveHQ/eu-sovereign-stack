@@ -1,0 +1,4 @@
+{
+  "//": "Example: pin Vercel serverless and edge function execution to London (lhr1). Co-locate with a London-region database (for example Supabase eu-west-2) to keep function-to-database latency low. Verify with: curl -sI https://your-domain.example | grep -i x-vercel-id",
+  "regions": ["lhr1"]
+}

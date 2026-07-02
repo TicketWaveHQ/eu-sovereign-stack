@@ -1,0 +1,14 @@
+# Lighthouse CI output
+.lighthouseci/
+lhci_reports/
+
+# Node (only present if you run the link-check or lhci locally)
+node_modules/
+npm-debug.log*
+package-lock.json
+
+# Editor / OS cruft
+.DS_Store
+.idea/
+.vscode/
+*.swp

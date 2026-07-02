@@ -1,0 +1,43 @@
+name: lint
+
+# Keeps the list trustworthy in CI:
+#  - Markdown link check catches dead links (a broken backlink is a broken promise).
+#  - House-style check enforces "no em-dashes" across all Markdown.
+# No secrets, no deploy. Pure static checks.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  markdown-links:
+    name: Markdown link check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check links in Markdown
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          use-verbose-mode: 'yes'
+          config-file: '.github/markdown-link-check.json'
+
+  house-style:
+    name: House style (no em-dashes)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fail on em-dash characters
+        run: |
+          # The em-dash (U+2014) is a hard house-rule violation. Grep for it
+          # across tracked Markdown and fail if any are found.
+          if grep -rnP "\x{2014}" --include='*.md' .; then
+            echo "::error::Found em-dash characters (U+2014). Use a comma or a spaced hyphen instead."
+            exit 1
+          fi
+          echo "No em-dashes found. Good."

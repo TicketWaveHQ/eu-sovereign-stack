@@ -1,0 +1,29 @@
+{
+  "//": "Lighthouse CI budget for the public sub-processor disclosure reference page. A sovereignty page that is slow or inaccessible undermines the trust it is meant to build, so we hold it to a real bar. Run with: npx @lhci/cli autorun",
+  "ci": {
+    "collect": {
+      "url": ["https://brothersylvester.com/data-processors"],
+      "numberOfRuns": 3,
+      "settings": {
+        "preset": "desktop"
+      }
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": ["warn", { "minScore": 0.9 }],
+        "categories:accessibility": ["error", { "minScore": 0.95 }],
+        "categories:best-practices": ["warn", { "minScore": 0.9 }],
+        "categories:seo": ["warn", { "minScore": 0.9 }],
+        "color-contrast": ["error", { "minScore": 1 }],
+        "document-title": ["error", { "minScore": 1 }],
+        "html-has-lang": ["error", { "minScore": 1 }],
+        "meta-description": ["error", { "minScore": 1 }],
+        "is-crawlable": ["error", { "minScore": 1 }],
+        "uses-https": ["error", { "minScore": 1 }]
+      }
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    }
+  }
+}
