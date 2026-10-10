@@ -2,7 +2,7 @@
   "//": "Lighthouse CI budget for the public sub-processor disclosure reference page. A sovereignty page that is slow or inaccessible undermines the trust it is meant to build, so we hold it to a real bar. Run with: npx @lhci/cli autorun",
   "ci": {
     "collect": {
-      "url": ["https://brothersylvester.com/data-processors"],
+      "url": ["https://ticketwavehq.com/data-processors"],
       "numberOfRuns": 3,
       "settings": {
         "preset": "desktop"

@@ -3,7 +3,7 @@
 A public sub-processor list is one of the cleanest ways to *show* sovereignty
 rather than *sell* it. Copy this into a `/data-processors` (or
 `/sub-processors`) page on your own site and fill in the rows. A live example
-built on this pattern is at https://brothersylvester.com/data-processors.
+built on this pattern is at https://ticketwavehq.com/data-processors.
 
 Publish the discipline alongside the list:
 

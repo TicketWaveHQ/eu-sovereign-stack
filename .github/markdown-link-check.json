@@ -6,7 +6,7 @@
     {
       "urls": ["https://"],
       "headers": {
-        "User-Agent": "Mozilla/5.0 (compatible; markdown-link-check; +https://github.com/sansware/eu-sovereign-stack)",
+        "User-Agent": "Mozilla/5.0 (compatible; markdown-link-check; +https://github.com/TicketWaveHQ/eu-sovereign-stack)",
         "Accept": "text/html,application/xhtml+xml"
       }
     }

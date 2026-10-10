@@ -382,7 +382,7 @@ A representative production stack, fully pinned, with every identifying-data sub
 - **Payments:** Stripe via Stripe Payments Europe Ltd (Ireland), documented exception for the US parent under SCCs.
 - **Edge:** Cloudflare for DNS/WAF/TLS, documented exception, no personal data persisted at the edge.
 
-Result: every sub-processor that touches identifying personal data sits in the EEA or the UK. The two exceptions (Cloudflare edge, Stripe US parent) are region-agnostic or metadata-only, and both are written down where buyers can see them. A live example of a public sub-processor disclosure built on this pattern is published at [brothersylvester.com/data-processors](https://brothersylvester.com/data-processors).
+Result: every sub-processor that touches identifying personal data sits in the EEA or the UK. The two exceptions (Cloudflare edge, Stripe US parent) are region-agnostic or metadata-only, and both are written down where buyers can see them. A live example of a public sub-processor disclosure built on this pattern is published at [ticketwavehq.com/data-processors](https://ticketwavehq.com/data-processors).
 
 ---
 
@@ -395,7 +395,7 @@ Pinning that is not verified is just a hope. A few checks you can automate:
 - **Database region:** confirm in the vendor dashboard (the project URL does not encode the region).
 - **Config-as-truth:** keep `vercel.json` `regions`, your Sentry init, and your CSP under version control so the pin is reviewable in a pull request.
 
-A minimal, provider-agnostic checklist you can copy into your own repository lives at [github.com/sansware/eu-sovereignty-checklist](https://github.com/sansware/eu-sovereignty-checklist). It walks through onboarding a new sub-processor, verifying its region, and disclosing the change. This list (the *what*) and that checklist (the *how*) are meant to be used together.
+A minimal, provider-agnostic checklist you can copy into your own repository lives at [github.com/TicketWaveHQ/eu-sovereignty-checklist](https://github.com/TicketWaveHQ/eu-sovereignty-checklist). It walks through onboarding a new sub-processor, verifying its region, and disclosing the change. This list (the *what*) and that checklist (the *how*) are meant to be used together.
 
 An example continuous-integration workflow and a Lighthouse budget file are included in this repository under [`.github/workflows/`](.github/workflows/) and [`lighthouserc.json`](lighthouserc.json), plus a copy-ready sub-processor disclosure template under [`templates/`](templates/).
 
@@ -403,9 +403,9 @@ An example continuous-integration workflow and a Lighthouse budget file are incl
 
 ## Related resources
 
-- **[github.com/sansware/eu-sovereignty-checklist](https://github.com/sansware/eu-sovereignty-checklist)** - the operational checklist companion to this list: how to onboard, verify, and disclose a sub-processor.
-- **[brothersylvester.com/data-processors](https://brothersylvester.com/data-processors)** - a live, public sub-processor disclosure page built on the pinning discipline described here. A working reference for what a good disclosure looks like.
-- **[ticketwavehq.com](https://ticketwavehq.com)** - Sansware, who maintain this list.
+- **[github.com/TicketWaveHQ/eu-sovereignty-checklist](https://github.com/TicketWaveHQ/eu-sovereignty-checklist)** - the operational checklist companion to this list: how to onboard, verify, and disclose a sub-processor.
+- **[ticketwavehq.com/data-processors](https://ticketwavehq.com/data-processors)** - a live, public sub-processor register built on the pinning discipline described here, exceptions included. A working reference for what a good disclosure looks like.
+- **[ticketwavehq.com](https://ticketwavehq.com)** - TicketWave HQ, who maintain this list.
 - Your own regulator's guidance (the UK Information Commissioner's Office for the UK; your supervisory authority in the EEA) is always the authoritative source on transfers.
 
 ---
