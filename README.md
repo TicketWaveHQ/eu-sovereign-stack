@@ -191,6 +191,13 @@ Error trackers ingest stack traces and request context, which can carry personal
 - **How to verify:** Self-hosted, you own the region.
 - **Notes:** Open-source, Sentry-SDK-compatible error tracking. Drop-in for many Sentry SDKs; good when you want error data entirely on your own EEA/UK infrastructure.
 
+### Telemetry Tracker ✅
+
+- **Region:** European Union (Amsterdam) on the official Hosted Cloud; your choice when self-hosted.
+- **How to pin:** Use the Hosted Cloud at telemetry-tracker.com (API and primary PostgreSQL run on Railway in EU West, Amsterdam), or self-host the MIT open-source stack in an EEA/UK region via Docker and PostgreSQL as documented in DEPLOYMENT.md.
+- **How to verify:** The public privacy policy states that Hosted Cloud API and primary PostgreSQL (including the database volume) run on Railway in EU West (Amsterdam). Self-hosted, you own the region. Prefer enabling ingest PII scrubbing and avoiding unnecessary personal data in SDK payloads.
+- **Notes:** Built by a Slovenia-based operator (EEA). JavaScript and TypeScript error tracker with grouped errors, source maps, events, sessions and alerts. Hosted Free plan is available; self-hosting keeps all customer telemetry on your own infrastructure. Avatars use Cloudflare R2 (Eastern Europe location hint); confirm that against your own requirements if avatar storage matters.
+
 ### Highlight.io (self-hosted) ✅
 
 - **Region:** Your choice when self-hosted.
@@ -360,6 +367,7 @@ If an exception cannot meet all three, it is not an exception, it is a gap to cl
 | Auth | Ory / Zitadel | EU / self-host | EU region or self-host in-region |
 | Error tracking | Sentry | EU (`de.sentry.io`) | Create org on EU data region |
 | Error tracking | GlitchTip | Self-host / EU | Self-host in-region |
+| Error tracking | Telemetry Tracker | Hosted EU West (Amsterdam) / self-host | Privacy policy (Railway EU West); or self-host in-region |
 | Hosting | Vercel | UK (`lhr1`, London) | `regions: ["lhr1"]` in `vercel.json` |
 | Hosting | Scaleway / Hetzner / OVHcloud | EU | Select EU location at provisioning |
 | Object storage | Supabase Storage | Same as project | Pin the Supabase project region |
