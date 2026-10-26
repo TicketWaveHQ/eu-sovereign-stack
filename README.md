@@ -424,6 +424,10 @@ Open a pull request with the entry in the shape shown in [How to read an entry](
 
 ---
 
+## Author
+
+Written and maintained by [Jordan Gilbert](https://veryseoly.com/jordan) ([@sansware](https://github.com/sansware)), and published by [TicketWave HQ Ltd](https://ticketwavehq.com) ([@TicketWaveHQ](https://github.com/TicketWaveHQ)).
+
 ## Licence
 
 This list is licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/). See [`LICENSE`](LICENSE). You are free to share and adapt it, including commercially, with attribution.
