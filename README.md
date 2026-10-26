@@ -249,9 +249,9 @@ Where your functions execute and where your build artefacts and logs live.
 
 ### Bunny.net ✅ (EU entity, global edge)
 
-- **Region:** Slovenia. BunnyWay d.o.o. is an EU company, and storage zones are individually region-pinned — choose an EEA zone and the origin copy stays there.
+- **Region:** Slovenia. BunnyWay d.o.o. is an EU company, and storage zones are individually region-pinned - choose an EEA zone and the origin copy stays there.
 - **How to pin:** Create the storage zone in an EEA region (Frankfurt, Stockholm, London, Paris) and set the pull zone to that origin. Edge PoPs remain global, which is the point of a CDN; the durable copy is what you are pinning.
-- **How to verify:** The storage zone's region is shown in the dashboard and returned by the Storage API. Check request logs are disabled, or that their retention is set deliberately — edge logs contain requesting IP addresses.
+- **How to verify:** The storage zone's region is shown in the dashboard and returned by the Storage API. Check request logs are disabled, or that their retention is set deliberately - edge logs contain requesting IP addresses.
 - **Notes:** The clearest EEA-entity alternative to Cloudflare or Fastly for asset delivery. Treat the global edge as a documented exception on the same basis as any other CDN: the edge function is region-agnostic by nature, and personal data transits rather than resides. Substantially cheaper than the US incumbents at volume, which is rarely the reason to choose it but is not nothing.
 
 ## Object storage and files
@@ -281,19 +281,19 @@ User uploads, exports, and backups are personal-data-bearing; pin the bucket reg
 
 ---
 
-### Proton ✅ (Switzerland — UK adequacy)
+### Proton ✅ (Switzerland: UK adequacy)
 
 - **Region:** Switzerland. Covered by a UK adequacy decision and an EU adequacy decision, so transfers need no additional safeguard.
 - **How to pin:** Proton operates only from Swiss infrastructure; there is no region to select. Point your domain's MX records at Proton and the mailbox is Swiss by construction.
 - **How to verify:** `dig MX yourdomain.com` should return Proton's mail hosts and nothing else. If a previous provider's routing is still in the chain, you have two mail processors and have disclosed one.
-- **Notes:** Mail, calendar, drive and a password manager under one entity. Worth naming explicitly on a sub-processor register — mailboxes hold whatever a correspondent chooses to send, which is often the least controlled and most sensitive flow in a small company. Switzerland is adequate, not EEA; if your policy says EEA rather than adequate, that distinction matters and should be written down.
+- **Notes:** Mail, calendar, drive and a password manager under one entity. Worth naming explicitly on a sub-processor register - mailboxes hold whatever a correspondent chooses to send, which is often the least controlled and most sensitive flow in a small company. Switzerland is adequate, not EEA; if your policy says EEA rather than adequate, that distinction matters and should be written down.
 
-### Directus ⚪ (self-hosted — software, not a service)
+### Directus ⚪ (self-hosted: software, not a service)
 
 - **Region:** Wherever you run it. That is the point.
 - **How to pin:** Deploy on EEA compute you control. The data never leaves your infrastructure, because the vendor never receives it.
 - **How to verify:** Confirm the deployment host's region, and confirm telemetry is disabled if you do not want version-check pings leaving the host.
-- **Notes:** Listed because self-hosted software is the category most often handled wrongly on a sub-processor register. Running Directus yourself does not make Monospace an Article 28 sub-processor — no personal data reaches them in normal operation. Say that explicitly rather than omitting them: an omission reads as an oversight, whereas a stated rationale reads as a decision. The same logic applies to any self-hosted application.
+- **Notes:** Listed because self-hosted software is the category most often handled wrongly on a sub-processor register. Running Directus yourself does not make Monospace an Article 28 sub-processor - no personal data reaches them in normal operation. Say that explicitly rather than omitting them: an omission reads as an oversight, whereas a stated rationale reads as a decision. The same logic applies to any self-hosted application.
 
 ## Payments
 
