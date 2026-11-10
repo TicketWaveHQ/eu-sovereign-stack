@@ -282,7 +282,7 @@ Where your functions execute and where your build artefacts and logs live.
 - **Region:** Slovenia. BunnyWay d.o.o. is an EU company, and storage zones are individually region-pinned - choose an EEA zone and the origin copy stays there.
 - **How to pin:** Create the storage zone in an EEA region (Frankfurt, Stockholm, London, Paris) and set the pull zone to that origin. Edge PoPs remain global, which is the point of a CDN; the durable copy is what you are pinning.
 - **How to verify:** The storage zone's region is shown in the dashboard and returned by the Storage API. Check request logs are disabled, or that their retention is set deliberately - edge logs contain requesting IP addresses.
-- **Notes:** The clearest EEA-entity alternative to Cloudflare or Fastly for asset delivery. Treat the global edge as a documented exception on the same basis as any other CDN: the edge function is region-agnostic by nature, and personal data transits rather than resides. Substantially cheaper than the US incumbents at volume, which is rarely the reason to choose it but is not nothing.
+- **Notes:** The clearest EEA-entity alternative to Cloudflare or Fastly for asset delivery. Treat the global edge as a documented exception on the same basis as any other CDN: the edge function is region-agnostic by nature, and personal data transits rather than resides.
 
 ---
 
