@@ -16,7 +16,8 @@ contact:
 repository-code: "https://github.com/TicketWaveHQ/eu-sovereign-stack"
 url: "https://ticketwavehq.com/sovereignty"
 license: CC-BY-4.0
-date-released: "2026-07-02"
+version: "1.0.0"
+date-released: "2026-11-10"
 keywords:
   - alternatives
   - awesome
