@@ -1,8 +1,4 @@
-# Lighthouse CI output
-.lighthouseci/
-lhci_reports/
-
-# Node (only present if you run the link-check or lhci locally)
+# Node (only present if you run the link check locally)
 node_modules/
 npm-debug.log*
 package-lock.json

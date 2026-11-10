@@ -1,6 +1,7 @@
 {
   "ignorePatterns": [
-    { "pattern": "^https://your-domain.example" }
+    { "pattern": "your-domain\\.example" },
+    { "pattern": "^https://github\\.com/TicketWaveHQ/eu-sovereign-stack/(compare|releases/tag)/" }
   ],
   "httpHeaders": [
     {
