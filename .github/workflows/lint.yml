@@ -1,8 +1,9 @@
 name: lint
 
 # Keeps the list trustworthy in CI:
-#  - Markdown link check catches dead links (a broken backlink is a broken promise).
-#  - House-style check enforces "no em-dashes" across all Markdown.
+#  - Markdown link check catches dead links and dead in-page anchors
+#    (a broken backlink is a broken promise).
+#  - House-style check enforces "no em-dashes" in everything a reader sees.
 # No secrets, no deploy. Pure static checks.
 
 on:
@@ -10,6 +11,7 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -18,10 +20,11 @@ jobs:
   markdown-links:
     name: Markdown link check
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - name: Check links in Markdown
-        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        uses: tcort/github-action-markdown-link-check@e047c5b37f24ab722bbef1a27b6fab7f96bc4068 # v1
         with:
           use-quiet-mode: 'yes'
           use-verbose-mode: 'yes'
@@ -30,13 +33,16 @@ jobs:
   house-style:
     name: House style (no em-dashes)
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - name: Fail on em-dash characters
         run: |
           # The em-dash (U+2014) is a hard house-rule violation. Grep for it
-          # across tracked Markdown and fail if any are found.
-          if grep -rnP "\x{2014}" --include='*.md' .; then
+          # across the files a reader sees and fail if any are found.
+          if grep -rnP "\x{2014}" --exclude-dir=.git \
+              --include='*.md' --include='*.js' --include='*.json' \
+              --include='*.yml' --include='*.cff' .; then
             echo "::error::Found em-dash characters (U+2014). Use a comma or a spaced hyphen instead."
             exit 1
           fi

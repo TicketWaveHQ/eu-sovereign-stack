@@ -2,18 +2,34 @@
 
 **A curated list of EEA and UK-hosted alternatives to common US SaaS, with region-pinning notes you can actually verify.**
 
-Most "EU-friendly" vendor pages tell you a region is *supported*. That is not the same as a region being *pinned*. This list is for engineers and operators who need to prove, in a procurement questionnaire or a data protection impact assessment, exactly **where** identifying personal data lives, **who** processes it, and **which regulator** has authority over it.
+Most "EU-friendly" vendor pages tell you a region is *supported*. That is not the same as a region being *pinned*.
 
-Every entry below names a real product, its data-hosting region, and the concrete configuration step that pins that region. Where a vendor is a documented exception (region-agnostic edge, US parent under Standard Contractual Clauses), we say so plainly rather than pretending the problem away.
+**What it is:** a shortlist of named products (analytics, email, database, auth, error tracking, hosting, storage, payments), each with the region its data lives in, the configuration step that pins it there, and how a third party can check the pin. Where a vendor is a documented exception (region-agnostic edge, US parent under Standard Contractual Clauses), the entry says so plainly rather than pretending the problem away.
 
-British English throughout. Curated and maintained by [Sansware](https://ticketwavehq.com). Contributions welcome, see [Contributing](#contributing).
+**Who it is for:** engineers and operators who need to prove, in a procurement questionnaire, a data protection impact assessment or a customer's security review, exactly **where** identifying personal data lives, **who** processes it, and **which regulator** has authority over it.
+
+British English throughout. Curated by [Jordan Gilbert](https://veryseoly.com/jordan) and published by [TicketWave HQ](https://ticketwavehq.com). Contributions welcome, see [Contributing](#contributing).
 
 > This is an awesome-list, not legal advice. Region availability, corporate ownership, and transfer mechanisms change. Always verify against the vendor's current Data Processing Agreement and your own regulator's guidance before you rely on anything here.
+
+## 60-second start
+
+1. Find your category in the [region-pinning cheat sheet](#region-pinning-cheat-sheet).
+2. Open the entry and apply its **How to pin** step (often one setting, or one line such as `"regions": ["lhr1"]` in [`examples/vercel.json`](examples/vercel.json)).
+3. Run its **How to verify** check and keep the output with your records, for example:
+
+   ```sh
+   curl -sI https://your-domain.example | grep -i x-vercel-id   # hosting region
+   dig +short MX your-domain.example                            # who handles your mail
+   ```
+
+4. List the vendor on your public sub-processor page using [`templates/sub-processor-disclosure.md`](templates/sub-processor-disclosure.md).
 
 ---
 
 ## Contents
 
+- [60-second start](#60-second-start)
 - [Why sovereignty, and why pinning](#why-sovereignty-and-why-pinning)
 - [How to read an entry](#how-to-read-an-entry)
 - [Analytics](#analytics)
@@ -30,6 +46,7 @@ British English throughout. Curated and maintained by [Sansware](https://ticketw
 - [Verify it yourself](#verify-it-yourself)
 - [Related resources](#related-resources)
 - [Contributing](#contributing)
+- [Author](#author)
 - [Licence](#licence)
 
 ---
@@ -62,6 +79,7 @@ Legend:
 
 - ✅ **Sovereign** - EEA/UK data hosting, pinnable and verifiable.
 - ⚠️ **Exception** - kept deliberately; personal-data exposure is limited and documented (see [Documented exceptions](#documented-exceptions)).
+- ⚪ **Software, not a service** - self-hosted software; the vendor receives no personal data in normal operation, so it is not a sub-processor.
 
 ---
 
@@ -117,6 +135,13 @@ Split these two jobs. Transactional (receipts, password resets) and marketing (n
 - **How to verify:** Scaleway publishes its data-centre locations (Paris, Amsterdam, Warsaw) and its status as a French company.
 - **Notes:** Good when you already run other workloads on Scaleway and want a single EU-domiciled provider for compute, storage, and email.
 
+### Proton ✅ (Switzerland: UK adequacy)
+
+- **Region:** Switzerland. Covered by a UK adequacy decision and an EU adequacy decision, so transfers need no additional safeguard.
+- **How to pin:** Proton operates only from Swiss infrastructure; there is no region to select. Point your domain's MX records at Proton and the mailbox is Swiss by construction.
+- **How to verify:** `dig MX your-domain.example` should return Proton's mail hosts and nothing else. If a previous provider's routing is still in the chain, you have two mail processors and have disclosed one.
+- **Notes:** Mail, calendar, drive and a password manager under one entity. Worth naming explicitly on a sub-processor register - mailboxes hold whatever a correspondent chooses to send, which is often the least controlled and most sensitive flow in a small company. Switzerland is adequate, not EEA; if your policy says EEA rather than adequate, that distinction matters and should be written down.
+
 ---
 
 ## Database and backend
@@ -144,6 +169,13 @@ The database is where identifying personal data most often accumulates, so pinni
 - **How to verify:** Provider publishes data-centre locations; the region you select is fixed for that instance.
 - **Notes:** European-domiciled providers when you want the operating company, not just the data centre, inside the EEA.
 
+### Directus ⚪ (self-hosted: software, not a service)
+
+- **Region:** Wherever you run it. That is the point.
+- **How to pin:** Deploy on EEA compute you control. The data never leaves your infrastructure, because the vendor never receives it.
+- **How to verify:** Confirm the deployment host's region, and confirm telemetry is disabled if you do not want version-check pings leaving the host.
+- **Notes:** Listed because self-hosted software is the category most often handled wrongly on a sub-processor register. Running Directus yourself does not make Monospace an Article 28 sub-processor - no personal data reaches them in normal operation. Say that explicitly rather than omitting them: an omission reads as an oversight, whereas a stated rationale reads as a decision. The same logic applies to any self-hosted application.
+
 ---
 
 ## Authentication
@@ -153,7 +185,7 @@ Authentication touches identifiers (email, sometimes name, sometimes more) on ev
 ### Supabase Auth ✅
 
 - **Region:** Same as your Supabase project (for example London `eu-west-2`).
-- **How to pin:** Auth data lives in your Supabase project's Postgres, so pinning the project region ([above](#supabase-london-eu-west-2-)) pins auth too. No separate vendor.
+- **How to pin:** Auth data lives in your Supabase project's Postgres, so pinning the project region ([above](#supabase-london--eu-west-2-)) pins auth too. No separate vendor.
 - **How to verify:** Same as the Supabase project region check.
 - **Notes:** Using the auth built into your database region removes an entire sub-processor from the diagram. Integrates natively with row-level security.
 
@@ -245,14 +277,14 @@ Where your functions execute and where your build artefacts and logs live.
 - **How to verify:** Region shown per resource; OVHcloud is a French company.
 - **Notes:** Large French-domiciled provider with a broad EEA footprint. Useful when procurement specifically wants a European hyperscaler alternative.
 
----
-
 ### Bunny.net ✅ (EU entity, global edge)
 
 - **Region:** Slovenia. BunnyWay d.o.o. is an EU company, and storage zones are individually region-pinned - choose an EEA zone and the origin copy stays there.
 - **How to pin:** Create the storage zone in an EEA region (Frankfurt, Stockholm, London, Paris) and set the pull zone to that origin. Edge PoPs remain global, which is the point of a CDN; the durable copy is what you are pinning.
 - **How to verify:** The storage zone's region is shown in the dashboard and returned by the Storage API. Check request logs are disabled, or that their retention is set deliberately - edge logs contain requesting IP addresses.
-- **Notes:** The clearest EEA-entity alternative to Cloudflare or Fastly for asset delivery. Treat the global edge as a documented exception on the same basis as any other CDN: the edge function is region-agnostic by nature, and personal data transits rather than resides. Substantially cheaper than the US incumbents at volume, which is rarely the reason to choose it but is not nothing.
+- **Notes:** The clearest EEA-entity alternative to Cloudflare or Fastly for asset delivery. Treat the global edge as a documented exception on the same basis as any other CDN: the edge function is region-agnostic by nature, and personal data transits rather than resides.
+
+---
 
 ## Object storage and files
 
@@ -280,20 +312,6 @@ User uploads, exports, and backups are personal-data-bearing; pin the bucket reg
 - **Notes:** Kept as a [documented exception](#documented-exceptions) where you already use Cloudflare and the objects are non-identifying or the EU location hint is sufficient for your risk assessment. For strictly identifying data at scale, prefer a fully EEA-domiciled store above.
 
 ---
-
-### Proton ✅ (Switzerland: UK adequacy)
-
-- **Region:** Switzerland. Covered by a UK adequacy decision and an EU adequacy decision, so transfers need no additional safeguard.
-- **How to pin:** Proton operates only from Swiss infrastructure; there is no region to select. Point your domain's MX records at Proton and the mailbox is Swiss by construction.
-- **How to verify:** `dig MX yourdomain.com` should return Proton's mail hosts and nothing else. If a previous provider's routing is still in the chain, you have two mail processors and have disclosed one.
-- **Notes:** Mail, calendar, drive and a password manager under one entity. Worth naming explicitly on a sub-processor register - mailboxes hold whatever a correspondent chooses to send, which is often the least controlled and most sensitive flow in a small company. Switzerland is adequate, not EEA; if your policy says EEA rather than adequate, that distinction matters and should be written down.
-
-### Directus ⚪ (self-hosted: software, not a service)
-
-- **Region:** Wherever you run it. That is the point.
-- **How to pin:** Deploy on EEA compute you control. The data never leaves your infrastructure, because the vendor never receives it.
-- **How to verify:** Confirm the deployment host's region, and confirm telemetry is disabled if you do not want version-check pings leaving the host.
-- **Notes:** Listed because self-hosted software is the category most often handled wrongly on a sub-processor register. Running Directus yourself does not make Monospace an Article 28 sub-processor - no personal data reaches them in normal operation. Say that explicitly rather than omitting them: an omission reads as an oversight, whereas a stated rationale reads as a decision. The same logic applies to any self-hosted application.
 
 ## Payments
 
@@ -397,7 +415,7 @@ Pinning that is not verified is just a hope. A few checks you can automate:
 
 A minimal, provider-agnostic checklist you can copy into your own repository lives at [github.com/TicketWaveHQ/eu-sovereignty-checklist](https://github.com/TicketWaveHQ/eu-sovereignty-checklist). It walks through onboarding a new sub-processor, verifying its region, and disclosing the change. This list (the *what*) and that checklist (the *how*) are meant to be used together.
 
-An example continuous-integration workflow and a Lighthouse budget file are included in this repository under [`.github/workflows/`](.github/workflows/) and [`lighthouserc.json`](lighthouserc.json), plus a copy-ready sub-processor disclosure template under [`templates/`](templates/).
+Copy-ready pieces in this repository: [`examples/vercel.json`](examples/vercel.json) (the London region pin), [`examples/sentry-eu-guard.js`](examples/sentry-eu-guard.js) (a runtime warning if a Sentry DSN is not on the EU region), and a public sub-processor disclosure template under [`templates/`](templates/).
 
 ---
 
@@ -405,7 +423,9 @@ An example continuous-integration workflow and a Lighthouse budget file are incl
 
 - **[github.com/TicketWaveHQ/eu-sovereignty-checklist](https://github.com/TicketWaveHQ/eu-sovereignty-checklist)** - the operational checklist companion to this list: how to onboard, verify, and disclose a sub-processor.
 - **[ticketwavehq.com/data-processors](https://ticketwavehq.com/data-processors)** - a live, public sub-processor register built on the pinning discipline described here, exceptions included. A working reference for what a good disclosure looks like.
-- **[ticketwavehq.com](https://ticketwavehq.com)** - TicketWave HQ, who maintain this list.
+- **[github.com/TicketWaveHQ/uk-gdpr-dpa-templates](https://github.com/TicketWaveHQ/uk-gdpr-dpa-templates)** - plain-English UK GDPR DPA and sub-processor disclosure templates.
+- **[ticketwavehq.com/sovereignty](https://ticketwavehq.com/sovereignty)** - how TicketWave HQ applies this discipline to its own estate, exceptions included.
+- **[ticketwavehq.com](https://ticketwavehq.com)** - TicketWave HQ, who publish this list.
 - Your own regulator's guidance (the UK Information Commissioner's Office for the UK; your supervisory authority in the EEA) is always the authoritative source on transfers.
 
 ---
@@ -426,10 +446,10 @@ Open a pull request with the entry in the shape shown in [How to read an entry](
 
 ## Author
 
-Written and maintained by [Jordan Gilbert](https://veryseoly.com/jordan) ([@sansware](https://github.com/sansware)), and published by [TicketWave HQ Ltd](https://ticketwavehq.com) ([@TicketWaveHQ](https://github.com/TicketWaveHQ)).
+Written and maintained by [Jordan Gilbert](https://veryseoly.com/jordan) ([@eu-jordangilbert](https://github.com/eu-jordangilbert)), and published by [TicketWave HQ Ltd](https://ticketwavehq.com) ([@TicketWaveHQ](https://github.com/TicketWaveHQ)). Security reports: see [`SECURITY.md`](SECURITY.md).
 
 ## Licence
 
 This list is licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/). See [`LICENSE`](LICENSE). You are free to share and adapt it, including commercially, with attribution.
 
-Attribution: *EU / UK Sovereign Stack*, maintained by [Sansware](https://ticketwavehq.com).
+Attribution, as in [`NOTICE`](NOTICE): *EU / UK Sovereign Stack* by TicketWave HQ, with a link to <https://github.com/TicketWaveHQ/eu-sovereign-stack>.
