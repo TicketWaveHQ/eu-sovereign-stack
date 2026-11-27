@@ -7,7 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-Nothing yet.
+### Removed
+
+- **MailerLite.** It does not meet the bar for an entry: no setting pins its region, and its Data Processing Agreement (clause 13.1) lets it "transfer and process Customer Data anywhere in the world" where its sub-processors operate, with MailerLite, Inc. (US) as the importer under its Standard Contractual Clauses. Its storage is stated as EU (Google Cloud, Germany and the Netherlands), but the contract does not hold it there, so it is a gap rather than a documented exception.
+
+### Added
+
+- **Lettermint** (Lettermint B.V., the Netherlands) for newsletters, on its broadcast route: its DPA (s.8.1) commits email data to the EU, and its sub-processor list names the three that handle email.
+
+### Changed
+
+- **Scaleway Transactional Email:** marked transactional only. Its anti-spam policy rules out newsletters and mass mailings.
+- The stack table and the worked example now use Lettermint for newsletters.
 
 ## [1.0.0] - 2026-11-10
 
