@@ -114,12 +114,12 @@ Analytics is the easiest category to get right because you rarely need identifyi
 
 Split these two jobs. Transactional (receipts, password resets) and marketing (newsletters, campaigns) often want different tools, and both should keep recipient lists in the EEA/UK.
 
-### MailerLite ✅
+### Lettermint ✅ (newsletters on its broadcast route)
 
-- **Region:** European Union.
-- **How to pin:** MailerLite is operated by MailerLite Limited, a Lithuanian company, and processes subscriber data in the EU. No region flag is required; the EU domicile is the default posture.
-- **How to verify:** Confirm the processing location in the MailerLite Data Processing Agreement and sub-processor list.
-- **Notes:** Under both UK GDPR and EU GDPR jurisdiction. A strong newsletter and campaign platform when you want the subscriber list to stay in the EEA. Prefer connecting via the generic API/webhook rather than a heavy SDK so the dependency stays swappable.
+- **Region:** European Union (the Netherlands).
+- **How to pin:** Default. Lettermint B.V. is a Dutch company, and its Data Processing Agreement (s.8.1) commits hosting, storage and processing of email data to the European Union. Send newsletters on the project's broadcast route, kept apart from transactional mail.
+- **How to verify:** The DPA clause above, and its published sub-processor list: the only ones that handle email are UpCloud (the Netherlands), OVH Cloud (Germany, encrypted backups) and Postmastery (the Netherlands, deliverability).
+- **Notes:** Its acceptable-use policy requires explicit, recorded consent, an unsubscribe and a postal address in every marketing email. Message content and logs are kept 28 days by default. Keep the subscriber list in your own system and send through SMTP or the API, so the sender stays swappable.
 
 ### Resend ✅ (EU endpoint)
 
@@ -133,7 +133,7 @@ Split these two jobs. Transactional (receipts, password resets) and marketing (n
 - **Region:** France (European Union).
 - **How to pin:** Scaleway is a French cloud provider; TEM sends from French infrastructure. Region is fixed to Scaleway's EU regions.
 - **How to verify:** Scaleway publishes its data-centre locations (Paris, Amsterdam, Warsaw) and its status as a French company.
-- **Notes:** Good when you already run other workloads on Scaleway and want a single EU-domiciled provider for compute, storage, and email.
+- **Notes:** Good when you already run other workloads on Scaleway and want a single EU-domiciled provider for compute, storage, and email. **Transactional only:** Scaleway's TEM anti-spam policy says newsletters and mass mailings must use another service, and a breach can suspend the account. Use it for receipts, password resets and opt-in confirmation emails, not for campaigns.
 
 ### Proton ✅ (Switzerland: UK adequacy)
 
@@ -370,7 +370,7 @@ If an exception cannot meet all three, it is not an exception, it is a gap to cl
 |---|---|---|---|
 | Analytics | Plausible | EU (Germany) | Hosted EU default, or self-host in-region |
 | Analytics (full) | Matomo | EU (Germany) / self-host | Select EU data centre, or self-host |
-| Newsletter | MailerLite | EU (Lithuania) | EU domicile by default |
+| Newsletter | Lettermint (broadcast route) | EU (the Netherlands) | DPA s.8.1: email data processed in the EU |
 | Transactional email | Resend | EU | Select EU region in dashboard |
 | Database | Supabase | UK (`eu-west-2`, London) | Choose region at project creation |
 | Database | Neon | EU/UK | Choose region at project creation |
@@ -395,7 +395,7 @@ A representative production stack, fully pinned, with every identifying-data sub
 - **Database + auth + storage:** Supabase, London `eu-west-2`, one region to reason about.
 - **Analytics:** Plausible, EU-hosted, cookie-free, no personal data collected.
 - **Transactional email:** Resend, EU region pinned in the dashboard.
-- **Newsletter:** MailerLite, Lithuanian entity, connected via API/webhook so it stays swappable.
+- **Newsletter:** Lettermint's broadcast route, Dutch entity, its DPA committing email data to the EU; the list stays in your own system, sending over SMTP or the API, so the sender stays swappable.
 - **Error tracking:** Sentry EU (`de.sentry.io`) with PII scrubbing on; CSP `connect-src` references the `ingest.de.sentry.io` host only.
 - **Payments:** Stripe via Stripe Payments Europe Ltd (Ireland), documented exception for the US parent under SCCs.
 - **Edge:** Cloudflare for DNS/WAF/TLS, documented exception, no personal data persisted at the edge.
